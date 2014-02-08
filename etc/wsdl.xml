@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+
+			<!-- We need some more attributes on the ProductCreateEntity so we can use this also as the ProductResponseEntity -->
+			<complexType name="catalogProductCreateEntity">
+                <all>
+                	<element name="website" type="xsd:string" minOccurs="0" />
+                    <element name="sku" type="xsd:string" minOccurs="0" />
+                    <element name="set" type="xsd:string" minOccurs="0" />
+                    <element name="type" type="xsd:string" minOccurs="0" />
+                    <element name="coast" type="xsd:double" minOccurs="0" />
+                    <element name="website_prices" type="typens:delightSpeedapiPriceArray" minOccurs="0" />
+                    <element name="special_prices" type="typens:delightSpeedapiPriceArray" minOccurs="0" />
+                    <element name="media_list" type="typens:delightSpeedapiMediaArray" minOccurs="0" />
+                    <element name="link_list" type="typens:catalogProductLinkEntityArray" minOccurs="0" />
+                    <element name="tier_prices" type="typens:catalogProductTierPriceEntityArray" minOccurs="0" />
+                    <element name="meta_informations" type="typens:delightSpeedapiProductMetadataArray" minOccurs="0" />
+                    <element name="design_parameters" type="typens:delightSpeedapiProductDesignArray" minOccurs="0" />
+                    <element name="product_data" type="typens:delightSpeedapiProductDataArray" minOccurs="0" />
+                </all>
+            </complexType>
+
+			<!-- More than only one Product can be created/changed -->
+			<complexType name="delightSpeedapiProductEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductCreateEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiResponseState">
+				<all>
+					<element name="identifier" type="xsd:string" minOccurs="1" maxOccurs="1" />
+					<element name="success" type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+					<element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+					<element name="error" type="xsd:string" minOccurs="0" maxOccurs="1" />
+				</all>
+            </complexType>
+            <complexType name="delightSpeedapiProductStateEntity">
+            	<all>
+            		<element name="product" type="typens:delightSpeedapiResponseState" minOccurs="1" maxOccurs="1" />
+            		<element name="media_list" type="typens:delightSpeedapiResponseStateArray" minOccurs="0" maxOccurs="1" />
+            		<element name="website_attributes" type="typens:delightSpeedapiResponseStateArray" minOccurs="0" maxOccurs="1" />
+            	</all>
+            </complexType>
+            <complexType name="delightSpeedapiResponseStateArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiResponseState[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiProductStateResponseArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiProductStateEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+
+            <!-- Price-Entity for tier-prices and special-prices on different websites -->
+            <complexType name="delightSpeedapiPriceArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiPriceEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiPriceEntity">
+            	<all>
+                    <element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="price" type="xsd:double" minOccurs="1" maxOccurs="1" />
+                    <element name="from" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="to" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="tax_class" type="xsd:int" minOccurs="0" maxOccurs="1" /> <!-- 0=None, 2=Taxable Goods, 4=Shipping -->
+            	</all>
+            </complexType>
+
+            <!-- ProductData on different websites -->
+            <complexType name="delightSpeedapiProductDataArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiProductDataEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiProductDataEntity">
+            	<all>
+                    <element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="description" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="short_description" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="news_from_date" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="news_to_date" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="status" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+                    <element name="url_key" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="visibility" type="xsd:int" minOccurs="0" maxOccurs="1" /> <!-- 1=not visible, 2=catalog, 3=search, 4=catalog and search -->
+            	</all>
+            </complexType>
+
+            <!-- Design-Attributes on different websites -->
+            <complexType name="delightSpeedapiProductDesignArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiProductDesignEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiProductDesignEntity">
+            	<all>
+                    <element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="custom_design" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="custom_design_from" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="custom_design_to" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="custom_layout_update" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="page_layout" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="options_container" type="xsd:int" minOccurs="0" maxOccurs="1" />
+            	</all>
+            </complexType>
+
+            <!-- Metadata-Attributes on different websites -->
+            <complexType name="delightSpeedapiProductMetadataArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiProductMetadataEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiProductMetadataEntity">
+            	<all>
+                    <element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="meta_title" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="meta_keyword" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="meta_description" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            	</all>
+            </complexType>
+
+            <!-- Media list and MediaEntity-Addon -->
+            <complexType name="delightSpeedapiMediaArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductAttributeMediaCreateEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="delightSpeedapiMediaDataArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:delightSpeedapiMediaDataEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="catalogProductAttributeMediaCreateEntity">
+            	<all>
+                    <element name="download_url" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="website_data" type="typens:delightSpeedapiMediaDataArray" minOccurs="0" maxOccurs="1" />
+            	</all>
+            </complexType>
+            <complexType name="delightSpeedapiMediaDataEntity">
+            	<all>
+                    <element name="website" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="label" type="xsd:string" minOccurs="0" maxOccurs="1" />
+                    <element name="exclude" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+                    <element name="disabled" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+                    <element name="sort_order" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                    <element name="use_as_image" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+                    <element name="use_as_thumbnail" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+                    <element name="use_as_smallimage" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+            	</all>
+            </complexType>
+
+            <!-- Linked Products -->
+            <complexType name="catalogProductLinkEntity">
+            	<all>
+            		<element name="linkedProduct" type="xsd:string" minOccurs="0" />
+            	</all>
+            </complexType>
+
+		</schema>
+	</types>
+
+    <!-- create/update multiple products in one request -->
+    <message name="delightSpeedapiProductMultipleRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="products" type="typens:delightSpeedapiProductEntityArray" />
+    </message>
+    <message name="delightSpeedapiProductMultipleResponse">
+        <part name="products" type="typens:delightSpeedapiProductStateResponseArray" />
+    </message>
+
+    <!-- Fetch multiple products with all requested data -->
+    <message name="delightSpeedapiProductMultipleGetRequest">
+    	<part name="sessionId" type="xsd:string" />
+    	<part name="attributes" type="typens:ArrayOfString" />
+    	<part name="filters" type="typens:filters" />
+    	<part name="offset" type="xsd:int" />
+    	<part name="count" type="xsd:int" />
+    </message>
+    <message name="delightSpeedapiProductMultipleGetResponse">
+    	<part name="products" type="typens:delightSpeedapiProductEntityArray" />
+    </message>
+
+    <!-- Enable or Disable the Indexer -->
+    <message name="delightSpeedapiAdminIndexerRequest">
+    	<part name="sessionId" type="xsd:string" />
+    	<part name="indexer_state" type="xsd:boolean" />
+    	<part name="types" type="typens:ArrayOfString" />
+    </message>
+    <message name="delightSpeedapiAdminIndexerResponse">
+    	<part name="indexer_state" type="xsd:boolean" />
+    </message>
+
+		<!-- Cache-Management -->
+    <message name="delightSpeedapiAdminCacheRequest">
+    	<part name="sessionId" type="xsd:string" />
+    </message>
+    <message name="delightSpeedapiAdminCacheResponse">
+    	<part name="cache_success" type="xsd:boolean" />
+    </message>
+
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="delightSpeedapiProductMultiple">
+            <documentation>Create/Update products and return an Array of states</documentation>
+            <input message="typens:delightSpeedapiProductMultipleRequest" />
+            <output message="typens:delightSpeedapiProductMultipleResponse" />
+        </operation>
+        <operation name="delightSpeedapiProductMultipleGet">
+            <documentation>Get all Products</documentation>
+            <input message="typens:delightSpeedapiProductMultipleGetRequest" />
+            <output message="typens:delightSpeedapiProductMultipleGetResponse" />
+        </operation>
+
+        <operation name="delightSpeedapiAdminSetIndexerState">
+        	<documentation>Enable/Disable the Indexer</documentation>
+        	<input message="typens:delightSpeedapiAdminIndexerRequest" />
+        	<output message="typens:delightSpeedapiAdminIndexerResponse" />
+        </operation>
+        <operation name="delightSpeedapiAdminReindex">
+        	<documentation>Reindex all Indexes</documentation>
+        	<input message="typens:delightSpeedapiAdminIndexerRequest" />
+        	<output message="typens:delightSpeedapiAdminIndexerResponse" />
+        </operation>
+
+        <operation name="delightSpeedapiAdminFlushCache">
+        	<documentation>Flush the whole Cache</documentation>
+        	<input message="typens:delightSpeedapiAdminCacheRequest" />
+        	<output message="typens:delightSpeedapiAdminCacheResponse" />
+        </operation>
+    </portType>
+
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+    	<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+
+        <operation name="delightSpeedapiProductMultiple">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></output>
+        </operation>
+        <operation name="delightSpeedapiProductMultipleGet">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></output>
+        </operation>
+
+        <operation name="delightSpeedapiAdminSetIndexerState">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></output>
+        </operation>
+        <operation name="delightSpeedapiAdminReindex">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></output>
+        </operation>
+
+        <operation name="delightSpeedapiAdminFlushCache">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" /></output>
+        </operation>
+
+    </binding>
+
+	<service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </port>
+    </service>
+
+</definitions>

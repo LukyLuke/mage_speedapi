@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<modules>
+		<Delight_Speedapi>
+			<version>0.2.0</version>
+		</Delight_Speedapi>
+	</modules>
+
+	<global>
+		<models>
+			<speedapi>
+				<class>Delight_Speedapi_Model</class>
+			</speedapi>
+			
+			<catalog>
+				<rewrite>
+					<product>Delight_Speedapi_Model_Product_Product</product>
+				</rewrite>
+			</catalog>
+		</models>
+		
+		<blocks>
+			<speedapi>
+				<class>Delight_Speedapi_Block</class>
+			</speedapi>
+		</blocks>
+		
+		<helpers>
+			<speedapi>
+				<class>Delight_Speedapi_Helper</class>
+			</speedapi>
+		</helpers>
+			
+	</global>
+
+	<admin>
+		<routers>
+			<speedapi>
+				<use>admin</use>
+				<args>
+					<module>Delight_Speedapi</module>
+					<frontName>speedapi</frontName>
+				</args>
+			</speedapi>
+		</routers>
+	</admin>
+
+	<adminhtml>
+		<translate>
+			<modules>
+				<Delight_Speedapi>
+					<files>
+						<default>Delight_Speedapi.csv</default>
+					</files>
+				</Delight_Speedapi>
+			</modules>
+		</translate>
+
+		<layout>
+			<updates>
+				<speedapi>
+					<file>speedapi.xml</file>
+				</speedapi>
+			</updates>
+		</layout>
+
+		<!--<menu>
+			<system>
+				<children>
+					<speedapi_adminform translate="title" module="speedapi">
+						<title>Delight Speed-API</title>
+						<action>speedapi/adminhtml_editor</action>
+					</speedapi_adminform>
+				</children>
+			</system>
+		</menu>-->
+
+		<acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<speedapi_adminform translate="title" module="speedapi">
+									<title>Delight Speed-API</title>
+								</speedapi_adminform>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+
+	</adminhtml>
+
+</config>
