@@ -7,41 +7,41 @@
 				<title>Product-Methods to create/update/etc. multiple Products</title>
 				<methods>
 					<multiple translate="title" module="speedapi">
-                        <title>Create and Update products</title>
-                        <acl>catalog/product/create</acl>
-                        <method>multiple</method>
-                    </multiple>
+						<title>Create and Update products</title>
+						<acl>catalog/product/create</acl>
+						<method>multiple</method>
+					</multiple>
 					<multipleGet translate="title" module="speedapi">
-                        <title>Get all products from defined</title>
-                        <acl>catalog/product/info</acl>
-                        <method>multipleGet</method>
-                    </multipleGet>
+						<title>Get all products from defined</title>
+						<acl>catalog/product/info</acl>
+						<method>multipleGet</method>
+					</multipleGet>
 				</methods>
 			</speedapi_product>
-
+			
 			<speedapi_admin>
 				<model>speedapi/admin_api</model>
 				<title>Administrative-Requests and Actions</title>
 				<methods>
 					<setIndexerState translate="title" module="speedapi">
-                        <title>Enable/Disable the indexer</title>
-                        <acl>catalog/product/info</acl>
-                        <method>setIndexerState</method>
-                    </setIndexerState>
-                    <reindex translate="title" module="speedapi">
-                        <title>Reindex all indexes</title>
-                        <acl>catalog/product/info</acl>
-                        <method>reindex</method>
-                    </reindex>
-                    <flushCache translate="title" module="speedapi">
-                        <title>Flush the whole Cache</title>
-                        <acl>catalog/product/info</acl>
-                        <method>flushCache</method>
-                    </flushCache>
+						<title>Enable/Disable the indexer</title>
+						<acl>catalog/product/info</acl>
+						<method>setIndexerState</method>
+					</setIndexerState>
+					<reindex translate="title" module="speedapi">
+						<title>Reindex all indexes</title>
+						<acl>catalog/product/info</acl>
+						<method>reindex</method>
+					</reindex>
+					<flushCache translate="title" module="speedapi">
+						<title>Flush the whole Cache</title>
+						<acl>catalog/product/info</acl>
+						<method>flushCache</method>
+					</flushCache>
 				</methods>
 			</speedapi_admin>
 		</resources>
-
+		
 		<v2>
 			<resources_function_prefix>
 				<speedapi>delightSpeedapi</speedapi>

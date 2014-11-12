@@ -48,31 +48,31 @@ class Delight_Speedapi_Model_Admin_Api_V2 extends Mage_Catalog_Model_Api_Resourc
 			$indexer->reindexAll();
 		}*/
 		return true;
-    }
+	}
 
-    /**
-     * Reindex all indexes given in $list (or all) if $state is true
-     * if $state is false, reindex all other indexes
-     *
-     * @param $state
-     * @param $list
-     * @return unknown_type
-     */
-    public function reindex($state = null, array $list = null) {
-    	@ignore_user_abort(true);
-    	@set_time_limit(0);
+	/**
+	 * Reindex all indexes given in $list (or all) if $state is true
+	 * if $state is false, reindex all other indexes
+	 *
+	 * @param $state
+	 * @param $list
+	 * @return unknown_type
+	 */
+	public function reindex($state = null, array $list = null) {
+		@ignore_user_abort(true);
+		@set_time_limit(0);
 		$indexer = Mage::getModel('speedapi/admin_indexer');
 		return $indexer->reindexAll($state, $list);
-    }
+	}
 
-    /**
-     * Flush the whole cache. The Systems seams to slow down after a couple
-     * of weeks without running and updateing Products through the API daily
-     *
-     * @return boolean Always Success
-     */
-    public function flushCache() {
-			$indexer = Mage::getModel('speedapi/admin_indexer');
-			return $indexer->flushCache();
-    }
+	/**
+	 * Flush the whole cache. The Systems seams to slow down after a couple
+	 * of weeks without running and updateing Products through the API daily
+	 *
+	 * @return boolean Always Success
+	 */
+	public function flushCache() {
+		$indexer = Mage::getModel('speedapi/admin_indexer');
+		return $indexer->flushCache();
+	}
 }
