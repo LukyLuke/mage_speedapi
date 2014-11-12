@@ -1,0 +1,50 @@
+Delight Speedapi
+================
+
+The delight speedapi is a module for Magento 1.5 and later. The main focus is to improve the API with methods to combine multiple requests into one single request. This for creating and updating products but also for fetching orders as paged results.
+
+Required: delightapi - https://github.com/delight-software-gmbh/mage_delightapi
+
+To install, clone or download the git repo and rename the folder to 'speedapi' and create app/etc/modules/Delight_Speedapi.xml configuration.
+If existing: Use the buildscript in the root folder to create a Magento-Module package.
+
+
+New Methods
+-----------
+
+This module is mainly to provide new methods to the Magento API. For Bugfixes see the required 'delightapi' module.
+
+
+Create and Update multiple products
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiProductMultiple(String sessionId, delightSpeedapiProductEntityArray products):delightSpeedapiProductStateResponseArray
+
+delightSpeedapiProductEntityArray is a list of catalogProductCreateEntity instances.
+delightSpeedapiProductStateResponseArray is a list of delightSpeedapiProductStateEntity instances.
+
+
+Get multiple products
+~~~~~~~~~~~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiProductMultipleGet(String sessonId, ArrayOfStrings attributes, filters filters, int offset, int count):delightSpeedapiProductEntityArray
+
+delightSpeedapiProductEntityArray is a list of catalogProductCreateEntity instances.
+
+
+Enable/Disable indexer
+~~~~~~~~~~~~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiAdminSetIndexerState(String sessionId, boolean indexer_state, ArrayOfStrings types):boolean
+
+
+Reindex products
+~~~~~~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiAdminReindex(String sessionId, boolean indexer_state, ArrayOfStrings types):boolean
+
+
+Flush cache
+~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiAdminFlushCache(String sessionId):boolean
