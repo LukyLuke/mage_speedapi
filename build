@@ -31,7 +31,7 @@ fi
 
 # If no module name is given, check the xml configuration
 if [[ -z "${MODULE}" || -z "${COMPANY}" ]]; then
-	_TMP=`grep --color=never -Pzo '(?s)<modules>\s*<([^_>]+)_([^>]+)>' etc/config.xml | grep --color=never -Pzo '<([^_>]+)_([^>]+)>'`
+	_TMP=`grep --color=never -Pzo '(?s)<modules>\s*<([^_>]+)_([^>]+)>' etc/config.xml | grep --color=never -Pzo '<([^_>]+)_([^>]+)>' | head -1`
 	_TMP=${_TMP:1:-1}
 	COMPANY=${_TMP%_*}
 	MODULE=${_TMP#*_}
