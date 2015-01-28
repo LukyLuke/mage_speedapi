@@ -27,7 +27,7 @@
 				</all>
 			</complexType>
 			
-			<!-- More than only one Product can be created/changed -->
+			<!-- More than only one Product can be created/changed/deleted -->
 			<complexType name="delightSpeedapiProductEntityArray">
 				<complexContent>
 					<restriction base="soapenc:Array">
@@ -209,6 +209,16 @@
 		<part name="products" type="typens:delightSpeedapiProductEntityArray" />
 	</message>
 	
+	<!-- Delete mulitple products at in one request -->
+	<message name="delightSpeedapiProductDeleteRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="products" type="typens:ArrayOfString" />
+		<part name="identifier" type="xsd:string" />
+	</message>
+	<message name="delightSpeedapiProductDeleteResponse">
+		<part name="delete_state" type="typens:delightSpeedapiProductStateResponseArray" />
+	</message>
+	
 	<!-- Enable or Disable the Indexer -->
 	<message name="delightSpeedapiAdminIndexerRequest">
 		<part name="sessionId" type="xsd:string" />
@@ -237,6 +247,11 @@
 			<documentation>Get all Products</documentation>
 			<input message="typens:delightSpeedapiProductMultipleGetRequest" />
 			<output message="typens:delightSpeedapiProductMultipleGetResponse" />
+		</operation>
+		<operation name="delightSpeedapiProductDelete">
+			<documentation>Delete a list of Products</documentation>
+			<input message="typens:delightSpeedapiProductDeleteRequest" />
+			<output message="typens:delightSpeedapiProductDeleteResponse" />
 		</operation>
 		
 		<operation name="delightSpeedapiAdminSetIndexerState">
@@ -270,6 +285,15 @@
 			</output>
 		</operation>
 		<operation name="delightSpeedapiProductMultipleGet">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="delightSpeedapiProductDelete">
 			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
 			<input>
 				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />

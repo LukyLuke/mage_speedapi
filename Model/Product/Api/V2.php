@@ -133,9 +133,6 @@ class Delight_Speedapi_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_A
 			}
 		}
 
-		// TODO: Debug Lukas
-		//$collection->addFieldToFilter('sku', 'SPEED-API-5');
-
 		// Check for default attributes
 		if (!is_array($attributes)) {
 			$attributes = array();
@@ -297,7 +294,6 @@ class Delight_Speedapi_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_A
 				}
 			}
 			$result[] = $res;
-			//break; // TODO: Lukas debug
 		}
 
 		return $result;
@@ -488,11 +484,47 @@ class Delight_Speedapi_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_A
 				}
 			}
 			$result[] = $res;
-			//break; // TODO: Only one Product for Debugging...
 		}
 
 		foreach ($this->productIds as $id) {
 			Mage::app()->cleanCache('catalog_product_'.$id);
+		}
+
+		// Reenable indexer and run indexing
+		$indexer->resetIndexerState($indexStates);
+
+		return $result;
+	}
+
+	/**
+	 * Deletes a bunch of Products
+	 *
+	 * @param array $products List of Product identifier values
+	 * @param string $identifier The identifier which should be used for loading/delet the Product
+	 * @return array
+	 */
+	public function delete($products, $identifier = null) {
+		// Get all Indexing-Modes and disable it (enabled after all products are uploaded)
+		$indexer = Mage::getModel('speedapi/admin_indexer');
+		$indexStates = $indexer->getIndexingModes();
+		$indexer->setIndexerState(false);
+
+		// Delete all given Products
+		$result = array();
+		foreach ($products as $_k => $productId) {
+			$product = $this->_getProduct($productId, null, $identifier);
+			$res = new stdClass;
+			$res->identifier = $product->{$identifier};
+			$res->website = Mage::app()->getStore(0)->getCode();
+			try {
+				$product->delete();
+				$res->success = true;
+				$res->error = '';
+			} catch (Mage_Core_Exception $e) {
+				$res->success = false;
+				$res->error = 'not_deleted: ' . $e->getMessage();
+			}
+			$result[] = (object) array('product' => $res);
 		}
 
 		// Reenable indexer and run indexing

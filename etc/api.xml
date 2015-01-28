@@ -16,6 +16,11 @@
 						<acl>catalog/product/info</acl>
 						<method>multipleGet</method>
 					</multipleGet>
+					<delete translate="title" module="speedapi">
+						<title>Delete a bunchof products</title>
+						<acl>catalog/product/create</acl>
+						<method>delete</method>
+					</delete>
 				</methods>
 			</speedapi_product>
 			
