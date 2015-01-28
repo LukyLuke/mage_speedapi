@@ -32,6 +32,12 @@ SOAP-Method: delightSpeedapiProductMultipleGet(String sessonId, ArrayOfStrings a
 delightSpeedapiProductEntityArray is a list of catalogProductCreateEntity instances.
 
 
+Delete multiple products
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+SOAP-Method: delightSpeedapiProductDelete(String sessionId, ArrayOfStrings products, string identifier)
+
+
 Enable/Disable indexer
 ~~~~~~~~~~~~~~~~~~~~~~
 
