@@ -512,11 +512,11 @@ class Delight_Speedapi_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_A
 		// Delete all given Products
 		$result = array();
 		foreach ($products as $_k => $productId) {
-			$product = $this->_getProduct($productId, null, $identifier);
 			$res = new stdClass;
-			$res->identifier = $product->{$identifier};
+			$res->identifier = $productId;
 			$res->website = Mage::app()->getStore(0)->getCode();
 			try {
+				$product = $this->_getProduct($productId, null, $identifier);
 				$product->delete();
 				$res->success = true;
 				$res->error = '';
