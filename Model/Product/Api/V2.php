@@ -334,7 +334,7 @@ class Delight_Speedapi_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_A
 			try {
 				// Try to load the Product
 				try {
-					$product = $this->_getProduct($productData->sku);
+					$product = $this->_getProduct($productData->sku, null, 'sku');
 					if (Mage::helper('delightapi')->isPrevious16() && !$product->getId()) {
 						throw new Exception('product_not_exists');
 					}
